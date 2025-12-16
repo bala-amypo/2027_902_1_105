@@ -1,5 +1,5 @@
 package com.example.demo.model;
 
-public class Visitor{
+public class Appointment{
     
 }
