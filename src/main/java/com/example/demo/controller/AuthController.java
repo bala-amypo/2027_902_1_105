@@ -1,6 +1,8 @@
 package com.example.demo.controller;
 
-import org.springframework.w
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
 public class AuthController{
 
 }
