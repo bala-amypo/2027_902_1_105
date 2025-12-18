@@ -3,6 +3,6 @@ import org.springframework.stereotype.service;
 import com.example.demo.service.AppointmentService;
 
 @Service
-public interface AppointmentServiceimpl{
+public class AppointmentServiceimpl{
 
 }

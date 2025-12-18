@@ -1,5 +1,5 @@
 package com.example.demo.service;
 
-public class VisitorService{
+public interface VisitorService{
 
 }

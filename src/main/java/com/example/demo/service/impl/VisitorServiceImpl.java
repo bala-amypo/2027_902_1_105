@@ -3,6 +3,6 @@ import org.springframework.stereotype.service;
 import com.example.demo.service.VisitorService;
 
 @Service
-public interface VisitorServiceImpl{
+public class VisitorServiceImpl{
 
 }

@@ -3,6 +3,6 @@ import org.springframework.stereotype.service;
 import com.example.demo.service.ValidationUtil;
 
 @Service
-public interface ValidationUtilImpl{
+public class ValidationUtilImpl{
 
 }

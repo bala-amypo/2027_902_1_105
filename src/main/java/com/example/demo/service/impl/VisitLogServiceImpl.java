@@ -3,6 +3,6 @@ import org.springframework.stereotype.service;
 import com.example.demo.service.VisitorLogService;
 
 @Service
-public interface VisitLogServiceImpl{
+public class VisitLogServiceImpl{
 
 }

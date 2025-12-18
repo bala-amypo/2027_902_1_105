@@ -3,6 +3,6 @@ import org.springframework.stereotype.service;
 import com.example.demo.service.AlertNotificationService;
 
 @Service
-public interface AlertNotificationSeriveImpl{
+public class AlertNotificationSeriveImpl{
 
 }
