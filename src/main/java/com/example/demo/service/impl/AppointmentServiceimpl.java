@@ -1,3 +1,3 @@
-public c AppointmentServiceimpl{
+public interface AppointmentServiceimpl{
 
 }
