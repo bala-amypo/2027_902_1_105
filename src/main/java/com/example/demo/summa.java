@@ -84,45 +84,12 @@ SERVICE
 
 
 
-package com.example.demo.service;
-
-import java.util.List;
-
-import com.example.demo.model.User;
-
-public interface UserService {
-    User register(User user);
-    String login(String username, String password);
-    User createUser(User user);
-    User getUser(Long id);
-    User getByUsername(String username);
-    List<User> getAllUsers();
-}
 
 
-package com.example.demo.service;
-
-import com.example.demo.model.VisitLog;
-import java.util.List;
-
-public interface VisitLogService {
-    VisitLog checkInVisitor(Long visitorId, Long hostId, String purpose);
-    VisitLog checkOutVisitor(Long visitLogId);
-    List<VisitLog> getActiveVisits();
-    VisitLog getVisitLog(Long id);
-}
 
 
-package com.example.demo.service;
 
-import com.example.demo.model.Visitor;
-import java.util.List;
 
-public interface VisitorService {
-    Visitor createVisitor(Visitor visitor);
-    Visitor getVisitor(Long id);
-    List<Visitor> getAllVisitors();
-}
 
 
 IMPL:
