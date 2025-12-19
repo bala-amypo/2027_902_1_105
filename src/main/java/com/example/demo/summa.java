@@ -44,122 +44,26 @@ VisitLogController.java
 
 VisitorController.java
 
-package com.example.demo.controller;
-
-import com.example.demo.model.Visitor;
-import com.example.demo.service.VisitorService;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-
-@RestController
-@RequestMapping("/api/visitors")
-@Tag(name = "Visitor")
-public class VisitorController {
-
-    private final VisitorService visitorService;
-
-    public VisitorController(VisitorService visitorService) {
-        this.visitorService = visitorService;
-    }
-
-    @PostMapping
-    public ResponseEntity<Visitor> createVisitor(@RequestBody Visitor visitor) {
-        return ResponseEntity.ok(visitorService.createVisitor(visitor));
-    }
-
-    @GetMapping
-    public ResponseEntity<List<Visitor>> getAllVisitors() {
-        return ResponseEntity.ok(visitorService.getAllVisitors());
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Visitor> getVisitor(@PathVariable Long id) {
-        return ResponseEntity.ok(visitorService.getVisitor(id));
-    }
-}
 
 EXCEPTION
 
 
 ApiExceptionHandler.java
 
-package com.example.demo.exception;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
-
-@RestControllerAdvice
-public class ApiExceptionHandler {
-
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<String> handleNotFound(ResourceNotFoundException ex) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
-    }
-
-    @ExceptionHandler(BadRequestException.class)
-    public ResponseEntity<String> handleBadRequest(BadRequestException ex) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
-    }
-}
 
 BadRequestException.java
 
-package com.example.demo.exception;
-
-public class BadRequestException extends RuntimeException {
-
-    public BadRequestException(String message) {
-        super(message);
-    }
-}
-
 Resourcenotfoundexception.java
 
-package com.example.demo.exception;
 
-public class ResourceNotFoundException extends RuntimeException {
-
-    public ResourceNotFoundException(String message) {
-        super(message);
-    }
-}
 
 REPOSITORY
 
 AlertNotificationRepo
 
-package com.example.demo.repository;
-
-import com.example.demo.model.AlertNotification;
-import org.springframework.data.jpa.repository.JpaRepository;
-
-import java.util.List;
-
-public interface AlertNotificationRepository extends JpaRepository<AlertNotification, Long> {
-
-        List<AlertNotification> findByVisitLogId(Long id);
-}
 
 AppointmentRepo
-package com.example.demo.repository;
-
-import com.example.demo.model.Appointment;
-import org.springframework.data.jpa.repository.JpaRepository;
-
-import java.util.List;
-
-public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
-
-    // exact naming required
-    List<Appointment> findByVisitorId(Long id);
-
-    List<Appointment> findByHostId(Long id);
-}
 
 
 HostRepo.java
