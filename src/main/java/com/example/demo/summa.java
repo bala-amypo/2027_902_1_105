@@ -67,95 +67,21 @@ AppointmentRepo
 
 
 HostRepo.java
-package com.example.demo.repository;
-
-import com.example.demo.model.Host;
-import org.springframework.data.jpa.repository.JpaRepository;
-
-import java.util.Optional;
-
-public interface HostRepository extends JpaRepository<Host, Long> {
-
-    // for uniqueness checks
-    Optional<Host> findByEmail(String email);
-}
 
 UserRepo
 
-package com.example.demo.repository;
-
-import com.example.demo.model.User;
-import org.springframework.data.jpa.repository.JpaRepository;
-
-import java.util.Optional;
-
-public interface UserRepository extends JpaRepository<User, Long> {
-
-    Optional<User> findByUsername(String username);
-
-    Optional<User> findByEmail(String email);
-}
 
 VisitLogRepo
-package com.example.demo.repository;
 
-import com.example.demo.model.VisitLog;
-import org.springframework.data.jpa.repository.JpaRepository;
-
-import java.util.List;
-
-public interface VisitLogRepository extends JpaRepository<VisitLog, Long> {
-
-    // exact naming required in your sheet
-    List<VisitLog> findByCheckoutTimeIsNull();
-}
 
 VisitorRepo
-package com.example.demo.repository;
 
-import com.example.demo.model.Visitor;
-import org.springframework.data.jpa.repository.JpaRepository;
-
-public interface VisitorRepository extends JpaRepository<Visitor, Long> {
-}
 
 SERVICE
 
-package com.example.demo.service;
-
-import com.example.demo.model.AlertNotification;
-import java.util.List;
-
-public interface AlertNotificationService {
-    AlertNotification sendAlert(Long visitLogId);
-    AlertNotification getAlert(Long id);
-    List<AlertNotification> getAllAlerts();
-}
 
 
-package com.example.demo.service;
 
-import com.example.demo.model.Appointment;
-import java.util.List;
-
-public interface AppointmentService {
-    Appointment createAppointment(Long visitorId, Long hostId, Appointment appointment);
-    Appointment getAppointment(Long id);
-    List<Appointment> getAppointmentsForHost(Long hostId);
-    List<Appointment> getAppointmentsForVisitor(Long visitorId);
-}
-
-
-package com.example.demo.service;
-
-import com.example.demo.model.Host;
-import java.util.List;
-
-public interface HostService {
-    Host createHost(Host host);
-    Host getHost(Long id);
-    List<Host> getAllHosts();
-}
 
 
 package com.example.demo.service;

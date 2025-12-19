@@ -1,5 +1,7 @@
 package com.example.demo.repository;
 
-public interface VisitorRepository{
-    
+import com.example.demo.model.Visitor;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface VisitorRepository extends JpaRepository<Visitor, Long> {
 }
