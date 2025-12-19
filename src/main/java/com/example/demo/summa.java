@@ -24,228 +24,23 @@ Visitor.java
 CONTROLLER:
 
 AlertNotificationc.java
-package com.example.demo.controller;
 
-import com.example.demo.model.AlertNotification;
-import com.example.demo.service.AlertNotificationService;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-
-@RestController
-@RequestMapping("/api/alerts")
-@Tag(name = "AlertNotification")
-public class AlertNotificationController {
-
-    private final AlertNotificationService alertService;
-
-    public AlertNotificationController(AlertNotificationService alertService) {
-        this.alertService = alertService;
-    }
-
-    // POST /send/{visitLogId} – send alert
-    @PostMapping("/send/{visitLogId}")
-    public ResponseEntity<AlertNotification> sendAlert(@PathVariable Long visitLogId) {
-        return ResponseEntity.ok(alertService.sendAlert(visitLogId));
-    }
-
-    // GET /{id} – get alert
-    @GetMapping("/{id}")
-    public ResponseEntity<AlertNotification> getAlert(@PathVariable Long id) {
-        return ResponseEntity.ok(alertService.getAlert(id));
-    }
-
-    // GET / – list all alerts
-    @GetMapping
-    public ResponseEntity<List<AlertNotification>> getAllAlerts() {
-        return ResponseEntity.ok(alertService.getAllAlerts());
-    }
-}
 
 Appointmentcontroller.java
 
-package com.example.demo.controller;
 
-import com.example.demo.model.Appointment;
-import com.example.demo.service.AppointmentService;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-
-@RestController
-@RequestMapping("/api/appointments")
-@Tag(name = "Appointment")
-public class AppointmentController {
-
-    private final AppointmentService appointmentService;
-
-    public AppointmentController(AppointmentService appointmentService) {
-        this.appointmentService = appointmentService;
-    }
-
-    // POST /{visitorId}/{hostId} – create appointment
-    @PostMapping("/{visitorId}/{hostId}")
-    public ResponseEntity<Appointment> createAppointment(@PathVariable Long visitorId,
-                                                         @PathVariable Long hostId,
-                                                         @RequestBody Appointment appointment) {
-        return ResponseEntity.ok(
-                appointmentService.createAppointment(visitorId, hostId, appointment)
-        );
-    }
-
-    // GET /host/{hostId} – list for host
-    @GetMapping("/host/{hostId}")
-    public ResponseEntity<List<Appointment>> getAppointmentsForHost(@PathVariable Long hostId) {
-        return ResponseEntity.ok(appointmentService.getAppointmentsForHost(hostId));
-    }
-
-    // GET /visitor/{visitorId} – list for visitor
-    @GetMapping("/visitor/{visitorId}")
-    public ResponseEntity<List<Appointment>> getAppointmentsForVisitor(@PathVariable Long visitorId) {
-        return ResponseEntity.ok(appointmentService.getAppointmentsForVisitor(visitorId));
-    }
-
-    // GET /{id} – get appointment
-    @GetMapping("/{id}")
-    public ResponseEntity<Appointment> getAppointment(@PathVariable Long id) {
-        return ResponseEntity.ok(appointmentService.getAppointment(id));
-    }
-}
 
 AuthController.java
 
-package com.example.demo.controller;
 
-import com.example.demo.model.User;
-import com.example.demo.service.UserService;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-@RestController
-@RequestMapping("/auth")
-@Tag(name = "Auth")
-public class AuthController {
-
-    private final UserService userService;
-
-    public AuthController(UserService userService) {
-        this.userService = userService;
-    }
-
-    // Register using User entity directly
-    @PostMapping("/register")
-    public ResponseEntity<User> register(@RequestBody User user) {
-        User created = userService.createUser(user);
-        return ResponseEntity.ok(created);
-    }
-
-    // Simple login without DTO or security, returns plain string message
-    @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestParam String username,
-                                        @RequestParam String password) {
-        User user = userService.getByUsername(username);
-        if (user == null || !password.equals(user.getPassword())) {
-            return ResponseEntity.status(401).body("Invalid credentials");
-        }
-        return ResponseEntity.ok("Login successful");
-    }
-}
 
 HostController.java
 
-package com.example.demo.controller;
 
-import com.example.demo.model.Host;
-import com.example.demo.service.HostService;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-
-@RestController
-@RequestMapping("/api/hosts")
-@Tag(name = "Host")
-public class HostController {
-
-    private final HostService hostService;
-
-    public HostController(HostService hostService) {
-        this.hostService = hostService;
-    }
-
-    @PostMapping
-    public ResponseEntity<Host> createHost(@RequestBody Host host) {
-        return ResponseEntity.ok(hostService.createHost(host));
-    }
-
-    @GetMapping
-    public ResponseEntity<List<Host>> getAllHosts() {
-        return ResponseEntity.ok(hostService.getAllHosts());
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Host> getHost(@PathVariable Long id) {
-        return ResponseEntity.ok(hostService.getHost(id));
-    }
-}
 
 VisitLogController.java
 
-package com.example.demo.controller;
 
-import com.example.demo.model.VisitLog;
-import com.example.demo.service.VisitLogService;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-
-@RestController
-@RequestMapping("/api/visits")
-@Tag(name = "VisitLog")
-public class VisitLogController {
-
-    private final VisitLogService visitLogService;
-
-    public VisitLogController(VisitLogService visitLogService) {
-        this.visitLogService = visitLogService;
-    }
-
-    // POST /checkin/{visitorId}/{hostId} – check in
-    @PostMapping("/checkin/{visitorId}/{hostId}")
-    public ResponseEntity<VisitLog> checkin(@PathVariable Long visitorId,
-                                            @PathVariable Long hostId,
-                                            @RequestParam String purpose) {
-        return ResponseEntity.ok(
-                visitLogService.checkInVisitor(visitorId, hostId, purpose)
-        );
-    }
-
-    // POST /checkout/{visitLogId} – check out
-    @PostMapping("/checkout/{visitLogId}")
-    public ResponseEntity<VisitLog> checkout(@PathVariable Long visitLogId) {
-        return ResponseEntity.ok(visitLogService.checkOutVisitor(visitLogId));
-    }
-
-    // GET /active – list active visits
-    @GetMapping("/active")
-    public ResponseEntity<List<VisitLog>> getActiveVisits() {
-        return ResponseEntity.ok(visitLogService.getActiveVisits());
-    }
-
-    // GET /{id} – get visit log
-    @GetMapping("/{id}")
-    public ResponseEntity<VisitLog> getVisitLog(@PathVariable Long id) {
-        return ResponseEntity.ok(visitLogService.getVisitLog(id));
-    }
-}
 
 VisitorController.java
 
