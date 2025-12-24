@@ -92,188 +92,16 @@ HostDTO.java
 
 VisitLogDTO.java
 
-package com.example.apiproject.dto;
 
-import java.time.LocalDateTime;
-
-public class VisitLogDTO {
-    private Long id;
-    private Long visitorId;
-    private Long hostId;
-    private LocalDateTime checkInTime;
-    private LocalDateTime checkOutTime;
-    private String purpose;
-    private Boolean accessGranted;
-    private Boolean alertSent;
-
-    public VisitLogDTO() {}
-
-    public VisitLogDTO(Long id, Long visitorId, Long hostId, LocalDateTime checkInTime,
-                      LocalDateTime checkOutTime, String purpose, Boolean accessGranted, Boolean alertSent) {
-        this.id = id;
-        this.visitorId = visitorId;
-        this.hostId = hostId;
-        this.checkInTime = checkInTime;
-        this.checkOutTime = checkOutTime;
-        this.purpose = purpose;
-        this.accessGranted = accessGranted;
-        this.alertSent = alertSent;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getVisitorId() {
-        return visitorId;
-    }
-
-    public void setVisitorId(Long visitorId) {
-        this.visitorId = visitorId;
-    }
-
-    public Long getHostId() {
-        return hostId;
-    }
-
-    public void setHostId(Long hostId) {
-        this.hostId = hostId;
-    }
-
-    public LocalDateTime getCheckInTime() {
-        return checkInTime;
-    }
-
-    public void setCheckInTime(LocalDateTime checkInTime) {
-        this.checkInTime = checkInTime;
-    }
-
-    public LocalDateTime getCheckOutTime() {
-        return checkOutTime;
-    }
-
-    public void setCheckOutTime(LocalDateTime checkOutTime) {
-        this.checkOutTime = checkOutTime;
-    }
-
-    public String getPurpose() {
-        return purpose;
-    }
-
-    public void setPurpose(String purpose) {
-        this.purpose = purpose;
-    }
-
-    public Boolean getAccessGranted() {
-        return accessGranted;
-    }
-
-    public void setAccessGranted(Boolean accessGranted) {
-        this.accessGranted = accessGranted;
-    }
-
-    public Boolean getAlertSent() {
-        return alertSent;
-    }
-
-    public void setAlertSent(Boolean alertSent) {
-        this.alertSent = alertSent;
-    }
-}
 
 VisitorDTO.java
 
-package com.example.apiproject.dto;
-
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-
-public class VisitorDTO {
-    private Long id;
- 
-    @NotBlank(message = "Full name is required")
-    private String fullName;
- 
-    @Email(message = "Invalid email format")
-    private String email;
- 
-    @NotBlank(message = "Phone is required")
-    private String phone;
- 
-    @NotBlank(message = "ID proof number is required")
-    private String idProofNumber;
-
-    public VisitorDTO() {}
-
-    public VisitorDTO(Long id, String fullName, String email, String phone, String idProofNumber) {
-        this.id = id;
-        this.fullName = fullName;
-        this.email = email;
-        this.phone = phone;
-        this.idProofNumber = idProofNumber;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getIdProofNumber() {
-        return idProofNumber;
-    }
-
-    public void setIdProofNumber(String idProofNumber) {
-        this.idProofNumber = idProofNumber;
-    }
-}
 
 EXCEPTION
 
 BadRequestException.java
 
-package com.example.apiproject.exception;
 
-public class BadRequestException extends RuntimeException {
-
-    public BadRequestException(String message) {
-        super(message);
-    }
-
-    public BadRequestException(String message, Throwable cause) {
-        super(message, cause);
-    }
-}
 
 
 GlobalExceptionHandler.java
@@ -342,19 +170,6 @@ public class GlobalExceptionHandler {
 
 
 ResourceNotFoundHandler.java
-
-package com.example.apiproject.exception;
-
-public class ResourceNotFoundException extends RuntimeException {
-
-    public ResourceNotFoundException(String message) {
-        super(message);
-    }
-
-    public ResourceNotFoundException(String message, Throwable cause) {
-        super(message, cause);
-    }
-}
 
 
 
