@@ -134,386 +134,41 @@ VisitLog.java
 
 Visitor.java
 
-package com.example.apiproject.model;
 
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-
-import java.time.LocalDateTime;
-
-@Entity
-@Table(name = "visitors")
-public class Visitor {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @NotBlank
-    private String fullName;
-
-    @Email
-    private String email;
-
-    @NotBlank
-    private String phone;
-
-    @NotBlank
-    private String idProofNumber;
-
-    private LocalDateTime createdAt;
-
-    public Visitor() {
-    }
-
-    public Visitor(Long id, String fullName, String email, String phone, String idProofNumber, LocalDateTime createdAt) {
-        this.id = id;
-        this.fullName = fullName;
-        this.email = email;
-        this.phone = phone;
-        this.idProofNumber = idProofNumber;
-        this.createdAt = createdAt;
-    }
-
-    @PrePersist
-    public void prePersist() {
-        if (createdAt == null) {
-            createdAt = LocalDateTime.now();
-        }
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public String getIdProofNumber() {
-        return idProofNumber;
-    }
-
-    public void setIdProofNumber(String idProofNumber) {
-        this.idProofNumber = idProofNumber;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-}
 
 REPOSITORY
 
 AlertNotificationRepository.java
 
-package com.example.apiproject.repository;
-
-import com.example.apiproject.model.AlertNotification;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
-import java.util.Optional;
-
-@Repository
-public interface AlertNotificationRepository extends JpaRepository<AlertNotification, Long> {
- 
-    Optional<AlertNotification> findByVisitLogId(Long visitLogId);
-}
 
 
 AppointmentRepository
 
-package com.example.apiproject.repository;
 
-import com.example.apiproject.model.Appointment;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
-import java.util.List;
-
-@Repository
-public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
- 
-    List<Appointment> findByHostId(Long hostId);
- 
-    List<Appointment> findByVisitorId(Long visitorId);
-}
 
 
 HostRepository.java
 
-package com.example.apiproject.repository;
-
-import com.example.apiproject.model.Host;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
-import java.util.Optional;
-
-@Repository
-public interface HostRepository extends JpaRepository<Host, Long> {
- 
-    Optional<Host> findByEmail(String email);
-}
 
 
 UserRepository.java
 
-package com.example.apiproject.repository;
-
-import com.example.apiproject.model.User;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
-import java.util.Optional;
-
-@Repository
-public interface UserRepository extends JpaRepository<User, Long> {
- 
-    Optional<User> findByEmail(String email);
- 
-    Optional<User> findByUsername(String username);
-}
-
 
 VisitLogRepository.java
 
-package com.example.apiproject.repository;
-
-import com.example.apiproject.model.VisitLog;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
-import java.util.List;
-
-@Repository
-public interface VisitLogRepository extends JpaRepository<VisitLog, Long> {
- 
-    List<VisitLog> findByCheckOutTimeIsNull();
-}
 
 VisitorRepository.java
-
-package com.example.apiproject.repository;
-
-import com.example.apiproject.model.Visitor;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
-
-@Repository
-public interface VisitorRepository extends JpaRepository<Visitor, Long> {
-}
 
 SECURITY
 
 CustomUserDetails.java
 
-package com.example.apiproject.controller;
-
-import com.example.apiproject.dto.AppointmentDTO;
-import com.example.apiproject.dto.ApiResponse;
-import com.example.apiproject.service.AppointmentService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-
-@Tag(name = "Appointments", description = "Appointment scheduling")
-@RestController
-@RequestMapping("/api/appointments")
-@SecurityRequirement(name = "bearerAuth")
-public class AppointmentController {
-
-    private final AppointmentService appointmentService;
-
-    public AppointmentController(AppointmentService appointmentService) {
-        this.appointmentService = appointmentService;
-    }
-
-    @Operation(summary = "Create appointment")
-    @PostMapping("/{visitorId}/{hostId}")
-    public ResponseEntity<ApiResponse> createAppointment(
-            @Parameter(description = "Visitor ID") @PathVariable Long visitorId,
-            @Parameter(description = "Host ID") @PathVariable Long hostId,
-            @Valid @RequestBody AppointmentDTO appointmentDTO) {
-        AppointmentDTO created = appointmentService.createAppointment(visitorId, hostId, appointmentDTO);
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(new ApiResponse(true, "Appointment created", created));
-    }
-
-    @Operation(summary = "Get appointment by ID")
-    @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse> getAppointment(
-            @Parameter(description = "Appointment ID") @PathVariable Long id) {
-        AppointmentDTO appointment = appointmentService.getAppointment(id);
-        return ResponseEntity.ok(new ApiResponse(true, "Appointment found", appointment));
-    }
-
-    @Operation(summary = "Get appointments by host")
-    @GetMapping("/host/{hostId}")
-    public ResponseEntity<ApiResponse> getAppointmentsForHost(
-            @Parameter(description = "Host ID") @PathVariable Long hostId) {
-        List<AppointmentDTO> appointments = appointmentService.getAppointmentsForHost(hostId);
-        return ResponseEntity.ok(new ApiResponse(true, "Host appointments", appointments));
-    }
-
-    @Operation(summary = "Get appointments by visitor")
-    @GetMapping("/visitor/{visitorId}")
-    public ResponseEntity<ApiResponse> getAppointmentsForVisitor(
-            @Parameter(description = "Visitor ID") @PathVariable Long visitorId) {
-        List<AppointmentDTO> appointments = appointmentService.getAppointmentsForVisitor(visitorId);
-        return ResponseEntity.ok(new ApiResponse(true, "Visitor appointments", appointments));
-    }
-}
 
 JwtAuthentication.java
 
-package com.example.apiproject.security;
-
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
-import org.springframework.stereotype.Component;
-import org.springframework.web.filter.OncePerRequestFilter;
-
-import java.io.IOException;
-
-@Component
-public class JwtAuthenticationFilter extends OncePerRequestFilter {
-
-    private static final Logger logger = LoggerFactory.getLogger(JwtAuthenticationFilter.class);
-    private final JwtUtil jwtUtil;
-    private final CustomUserDetailsService userDetailsService;
-
-    public JwtAuthenticationFilter(JwtUtil jwtUtil, CustomUserDetailsService userDetailsService) {
-        this.jwtUtil = jwtUtil;
-        this.userDetailsService = userDetailsService;
-    }
-
-    @Override
-    protected void doFilterInternal(HttpServletRequest request, 
-                                  HttpServletResponse response, 
-                                  FilterChain filterChain) throws ServletException, IOException {
-        
-        String authHeader = request.getHeader("Authorization");
-        String token = null;
-        String email = null;
-
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            token = authHeader.substring(7);
-            try {
-                email = jwtUtil.validateAndGetClaims(token).getSubject();
-            } catch (Exception e) {
-                logger.error("Invalid JWT token: {}", e.getMessage());
-            }
-        }
-
-        if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = userDetailsService.loadUserByUsername(email);
-
-            if (jwtUtil.validateToken(token, userDetails)) {
-                UsernamePasswordAuthenticationToken authToken = 
-                    new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                SecurityContextHolder.getContext().setAuthentication(authToken);
-            }
-        }
-
-        filterChain.doFilter(request, response);
-    }
-}
 
 JwtUtil.java
 
-package com.example.apiproject.security;
-
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
-// import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
-
-import javax.crypto.SecretKey;
-import java.util.Date;
-// import java.util.function.Function;
-
-@Component
-public class JwtUtil {
-
-    private final SecretKey secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-    private final int jwtExpiration = 86400000; // 24 hours
-
-    public String generateToken(String email) {
-        return Jwts.builder()
-                .setSubject(email)
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + jwtExpiration))
-                .signWith(secretKey)
-                .compact();
-    }
-
-    public Claims validateAndGetClaims(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(secretKey)
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
-    }
-
-    public boolean validateToken(String token, UserDetails userDetails) {
-        final String email = validateAndGetClaims(token).getSubject();
-        return email.equals(userDetails.getUsername()) && !isTokenExpired(token);
-    }
-
-    private boolean isTokenExpired(String token) {
-        return validateAndGetClaims(token).getExpiration().before(new Date());
-    }
-}
 
 SERVICE
 
