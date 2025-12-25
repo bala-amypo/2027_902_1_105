@@ -1,5 +1,5 @@
 
-package com.example.apiproject.exception;
+package com.example.demo.exception;
 
 public class ResourceNotFoundException extends RuntimeException {
 

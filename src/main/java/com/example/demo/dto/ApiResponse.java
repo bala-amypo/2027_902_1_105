@@ -1,4 +1,4 @@
-package com.example.apiproject.dto;
+package com.example.demo.dto;
 
 public class ApiResponse {
     private boolean success;

@@ -1,8 +1,8 @@
-package com.example.apiproject.controller;
+package com.example.demo.controller;
 
-import com.example.apiproject.dto.VisitorDTO;
-import com.example.apiproject.dto.ApiResponse;
-import com.example.apiproject.service.VisitorService;
+import com.example.demo.dto.VisitorDTO;
+import com.example.demo.dto.ApiResponse;
+import com.example.demo.service.VisitorService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
