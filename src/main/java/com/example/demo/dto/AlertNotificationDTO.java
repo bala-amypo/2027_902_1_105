@@ -1,4 +1,4 @@
-package com.example.apiproject.dto;
+package com.example.demo.dto;
 
 import jakarta.validation.constraints.NotBlank;
 
@@ -6,69 +6,66 @@ import java.time.LocalDateTime;
 
 public class AlertNotificationDTO {
 
-    private Long id;
- 
-    private Long visitLogId;
- 
-    @NotBlank(message = "Recipient email is required")
-    private String sentTo;
- 
-    @NotBlank(message = "Alert message is required")
-    private String alertMessage;
- 
-    private LocalDateTime sentAt;
+    private Long id;
+    private Long visitLogId;
 
- 
-    public AlertNotificationDTO() {}
+    @NotBlank(message = "Recipient email is required")
+    private String sentTo;
 
- 
-    public AlertNotificationDTO(Long id, Long visitLogId, String sentTo,
-                               String alertMessage, LocalDateTime sentAt) {
-        this.id = id;
-        this.visitLogId = visitLogId;
-        this.sentTo = sentTo;
-        this.alertMessage = alertMessage;
-        this.sentAt = sentAt;
-    }
+    @NotBlank(message = "Alert message is required")
+    private String alertMessage;
 
- 
-    public Long getId() {
-        return id;
-    }
+    private LocalDateTime sentAt;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public AlertNotificationDTO() {
+    }
 
-    public Long getVisitLogId() {
-        return visitLogId;
-    }
+    public AlertNotificationDTO(Long id, Long visitLogId, String sentTo,
+                                String alertMessage, LocalDateTime sentAt) {
+        this.id = id;
+        this.visitLogId = visitLogId;
+        this.sentTo = sentTo;
+        this.alertMessage = alertMessage;
+        this.sentAt = sentAt;
+    }
 
-    public void setVisitLogId(Long visitLogId) {
-        this.visitLogId = visitLogId;
-    }
+    public Long getId() {
+        return id;
+    }
 
-    public String getSentTo() {
-        return sentTo;
-    }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public void setSentTo(String sentTo) {
-        this.sentTo = sentTo;
-    }
+    public Long getVisitLogId() {
+        return visitLogId;
+    }
 
-    public String getAlertMessage() {
-        return alertMessage;
-    }
+    public void setVisitLogId(Long visitLogId) {
+        this.visitLogId = visitLogId;
+    }
 
-    public void setAlertMessage(String alertMessage) {
-        this.alertMessage = alertMessage;
-    }
+    public String getSentTo() {
+        return sentTo;
+    }
 
-    public LocalDateTime getSentAt() {
-        return sentAt;
-    }
+    public void setSentTo(String sentTo) {
+        this.sentTo = sentTo;
+    }
 
-    public void setSentAt(LocalDateTime sentAt) {
-        this.sentAt = sentAt;
-    }
+    public String getAlertMessage() {
+        return alertMessage;
+    }
+
+    public void setAlertMessage(String alertMessage) {
+        this.alertMessage = alertMessage;
+    }
+
+    public LocalDateTime getSentAt() {
+        return sentAt;
+    }
+
+    public void setSentAt(LocalDateTime sentAt) {
+        this.sentAt = sentAt;
+    }
 }
