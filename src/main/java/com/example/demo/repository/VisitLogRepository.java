@@ -8,6 +8,6 @@ import java.util.List;
 
 @Repository
 public interface VisitLogRepository extends JpaRepository<VisitLog, Long> {
- 
-    List<VisitLog> findByCheckOutTimeIsNull();
+ 
+    List<VisitLog> findByCheckOutTimeIsNull();
 }

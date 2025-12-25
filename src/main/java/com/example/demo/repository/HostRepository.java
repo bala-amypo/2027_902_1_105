@@ -8,6 +8,6 @@ import java.util.Optional;
 
 @Repository
 public interface HostRepository extends JpaRepository<Host, Long> {
- 
-    Optional<Host> findByEmail(String email);
+ 
+    Optional<Host> findByEmail(String email);
 }

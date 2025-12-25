@@ -8,8 +8,8 @@ import java.util.List;
 
 @Repository
 public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
- 
-    List<Appointment> findByHostId(Long hostId);
- 
-    List<Appointment> findByVisitorId(Long visitorId);
+ 
+    List<Appointment> findByHostId(Long hostId);
+ 
+    List<Appointment> findByVisitorId(Long visitorId);
 }

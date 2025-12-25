@@ -8,6 +8,6 @@ import java.util.Optional;
 
 @Repository
 public interface AlertNotificationRepository extends JpaRepository<AlertNotification, Long> {
- 
-    Optional<AlertNotification> findByVisitLogId(Long visitLogId);
+ 
+    Optional<AlertNotification> findByVisitLogId(Long visitLogId);
 }
