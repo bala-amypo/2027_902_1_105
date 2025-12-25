@@ -1,63 +1,39 @@
-package com.example.apiproject.controller;
+package com.example.apiproject.security;
 
-import com.example.apiproject.dto.AppointmentDTO;
-import com.example.apiproject.dto.ApiResponse;
-import com.example.apiproject.service.AppointmentService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import com.example.apiproject.model.User;
+import com.example.apiproject.repository.UserRepository;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Collection;
+import java.util.Collections;
 
-@Tag(name = "Appointments", description = "Appointment scheduling")
-@RestController
-@RequestMapping("/api/appointments")
-@SecurityRequirement(name = "bearerAuth")
-public class AppointmentController {
+@Service
+public class CustomUserDetailsService implements UserDetailsService {
 
-    private final AppointmentService appointmentService;
+    private final UserRepository userRepository;
 
-    public AppointmentController(AppointmentService appointmentService) {
-        this.appointmentService = appointmentService;
+    public CustomUserDetailsService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
-    @Operation(summary = "Create appointment")
-    @PostMapping("/{visitorId}/{hostId}")
-    public ResponseEntity<ApiResponse> createAppointment(
-            @Parameter(description = "Visitor ID") @PathVariable Long visitorId,
-            @Parameter(description = "Host ID") @PathVariable Long hostId,
-            @Valid @RequestBody AppointmentDTO appointmentDTO) {
-        AppointmentDTO created = appointmentService.createAppointment(visitorId, hostId, appointmentDTO);
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(new ApiResponse(true, "Appointment created", created));
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        return new org.springframework.security.core.userdetails.User(
+                user.getEmail(),
+                user.getPassword(),
+                getAuthorities(user.getRole())
+        );
     }
 
-    @Operation(summary = "Get appointment by ID")
-    @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse> getAppointment(
-            @Parameter(description = "Appointment ID") @PathVariable Long id) {
-        AppointmentDTO appointment = appointmentService.getAppointment(id);
-        return ResponseEntity.ok(new ApiResponse(true, "Appointment found", appointment));
-    }
-
-    @Operation(summary = "Get appointments by host")
-    @GetMapping("/host/{hostId}")
-    public ResponseEntity<ApiResponse> getAppointmentsForHost(
-            @Parameter(description = "Host ID") @PathVariable Long hostId) {
-        List<AppointmentDTO> appointments = appointmentService.getAppointmentsForHost(hostId);
-        return ResponseEntity.ok(new ApiResponse(true, "Host appointments", appointments));
-    }
-
-    @Operation(summary = "Get appointments by visitor")
-    @GetMapping("/visitor/{visitorId}")
-    public ResponseEntity<ApiResponse> getAppointmentsForVisitor(
-            @Parameter(description = "Visitor ID") @PathVariable Long visitorId) {
-        List<AppointmentDTO> appointments = appointmentService.getAppointmentsForVisitor(visitorId);
-        return ResponseEntity.ok(new ApiResponse(true, "Visitor appointments", appointments));
+    private Collection<? extends GrantedAuthority> getAuthorities(String role) {
+        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + role));
     }
 }
