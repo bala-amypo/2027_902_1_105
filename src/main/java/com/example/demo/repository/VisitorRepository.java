@@ -1,6 +1,6 @@
-package com.example.apiproject.repository;
+package com.example.demo.repository;
 
-import com.example.apiproject.model.Visitor;
+import com.example.demo.model.Visitor;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

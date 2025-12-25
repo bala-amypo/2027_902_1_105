@@ -1,10 +1,10 @@
-package com.example.apiproject.service.impl;
+package com.example.demo.service.impl;
 
-import com.example.apiproject.dto.VisitorDTO;
-import com.example.apiproject.model.Visitor;
-import com.example.apiproject.exception.ResourceNotFoundException;
-import com.example.apiproject.repository.VisitorRepository;
-import com.example.apiproject.service.VisitorService;
+import com.example.demo.dto.VisitorDTO;
+import com.example.demo.model.Visitor;
+import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.repository.VisitorRepository;
+import com.example.demo.service.VisitorService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

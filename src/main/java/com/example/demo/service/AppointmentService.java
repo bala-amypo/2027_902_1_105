@@ -1,6 +1,6 @@
-package com.example.apiproject.service;
+package com.example.demo.service;
 
-import com.example.apiproject.dto.AppointmentDTO;
+import com.example.demo.dto.AppointmentDTO;
 import java.util.List;
 
 public interface AppointmentService {

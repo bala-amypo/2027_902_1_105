@@ -1,6 +1,6 @@
-package com.example.apiproject.repository;
+package com.example.demo.repository;
 
-import com.example.apiproject.model.Appointment;
+import com.example.demo.model.Appointment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

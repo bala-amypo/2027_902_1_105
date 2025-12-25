@@ -1,13 +1,13 @@
-package com.example.apiproject.service.impl;
+package com.example.demo.service.impl;
 
-import com.example.apiproject.dto.AlertNotificationDTO;
-import com.example.apiproject.model.AlertNotification;
-import com.example.apiproject.model.Host;
-import com.example.apiproject.model.VisitLog;
-import com.example.apiproject.exception.ResourceNotFoundException;
-import com.example.apiproject.repository.AlertNotificationRepository;
-import com.example.apiproject.repository.VisitLogRepository;
-import com.example.apiproject.service.AlertNotificationService;
+import com.example.demo.dto.AlertNotificationDTO;
+import com.example.demo.model.AlertNotification;
+import com.example.demo.model.Host;
+import com.example.demo.model.VisitLog;
+import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.repository.AlertNotificationRepository;
+import com.example.demo.repository.VisitLogRepository;
+import com.example.demo.service.AlertNotificationService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

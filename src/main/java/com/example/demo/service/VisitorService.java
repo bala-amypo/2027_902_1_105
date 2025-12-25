@@ -1,6 +1,6 @@
-package com.example.apiproject.service;
+package com.example.demo.service;
 
-import com.example.apiproject.dto.VisitorDTO;
+import com.example.demo.dto.VisitorDTO;
 import java.util.List;
 
 public interface VisitorService {

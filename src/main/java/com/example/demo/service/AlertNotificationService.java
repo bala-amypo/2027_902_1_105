@@ -1,6 +1,6 @@
-package com.example.apiproject.service;
+package com.example.demo.service;
 
-import com.example.apiproject.dto.AlertNotificationDTO;
+import com.example.demo.dto.AlertNotificationDTO;
 import java.util.List;
 
 public interface AlertNotificationService {

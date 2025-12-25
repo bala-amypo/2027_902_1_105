@@ -1,6 +1,6 @@
-package com.example.apiproject.repository;
+package com.example.demo.repository;
 
-import com.example.apiproject.model.AlertNotification;
+import com.example.demo.model.AlertNotification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

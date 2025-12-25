@@ -1,13 +1,13 @@
 
-package com.example.apiproject.service.impl;
+package com.example.demo.service.impl;
 
-import com.example.apiproject.dto.AuthRequest;
-import com.example.apiproject.dto.AuthResponse;
-import com.example.apiproject.model.User;
-import com.example.apiproject.exception.ResourceNotFoundException;
-import com.example.apiproject.repository.UserRepository;
-import com.example.apiproject.security.JwtUtil;
-import com.example.apiproject.service.UserService;
+import com.example.demo.dto.AuthRequest;
+import com.example.demo.dto.AuthResponse;
+import com.example.demo.model.User;
+import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.repository.UserRepository;
+import com.example.demo.security.JwtUtil;
+import com.example.demo.service.UserService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 // import org.springframework.security.core.Authentication;

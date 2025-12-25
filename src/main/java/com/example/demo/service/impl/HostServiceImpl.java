@@ -1,10 +1,10 @@
-package com.example.apiproject.service.impl;
+package com.example.demo.service.impl;
 
-import com.example.apiproject.dto.HostDTO;
-import com.example.apiproject.model.Host;
-import com.example.apiproject.exception.ResourceNotFoundException;
-import com.example.apiproject.repository.HostRepository;
-import com.example.apiproject.service.HostService;
+import com.example.demo.dto.HostDTO;
+import com.example.demo.model.Host;
+import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.repository.HostRepository;
+import com.example.demo.service.HostService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

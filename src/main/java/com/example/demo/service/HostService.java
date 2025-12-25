@@ -1,6 +1,6 @@
-package com.example.apiproject.service;
+package com.example.demo.service;
 
-import com.example.apiproject.dto.HostDTO;
+import com.example.demo.dto.HostDTO;
 import java.util.List;
 
 public interface HostService {

@@ -1,15 +1,15 @@
 
-package com.example.apiproject.service.impl;
+package com.example.demo.service.impl;
 
-import com.example.apiproject.dto.AppointmentDTO;
-import com.example.apiproject.model.Appointment;
-import com.example.apiproject.model.Host;
-import com.example.apiproject.model.Visitor;
-import com.example.apiproject.exception.ResourceNotFoundException;
-import com.example.apiproject.repository.AppointmentRepository;
-import com.example.apiproject.repository.HostRepository;
-import com.example.apiproject.repository.VisitorRepository;
-import com.example.apiproject.service.AppointmentService;
+import com.example.demo.dto.AppointmentDTO;
+import com.example.demo.model.Appointment;
+import com.example.demo.model.Host;
+import com.example.demo.model.Visitor;
+import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.repository.AppointmentRepository;
+import com.example.demo.repository.HostRepository;
+import com.example.demo.repository.VisitorRepository;
+import com.example.demo.service.AppointmentService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
