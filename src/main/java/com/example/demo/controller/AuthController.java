@@ -28,4 +28,4 @@ public class AuthController {
         AuthResponse response = userService.authenticate(request);
         return ResponseEntity.ok(new ApiResponse(true, "Login successful", response));
     }
-} THIS IS MY AUTHCONTROLLER 
+} 
