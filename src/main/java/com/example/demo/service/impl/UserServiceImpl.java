@@ -1,4 +1,3 @@
-
 package com.example.demo.service.impl;
 
 import com.example.demo.dto.AuthRequest;
@@ -10,7 +9,6 @@ import com.example.demo.security.JwtUtil;
 import com.example.demo.service.UserService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-// import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +33,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public AuthResponse authenticate(AuthRequest request) {
+        // Authenticate user using Spring Security
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.getEmail(),
+                        request.getPassword()
+                )
+        );
+
+        // Fetch user from database
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+
+        // Generate JWT token
+        String token = jwtUtil.generateToken(user.getEmail());
+
+        return new AuthResponse(token, user.getId(), user.getEmail(), user.getRole());
+    }
+
+    @Override
     public User registerUser(AuthRequest request) {
         if (userRepository.findByEmail(request.getEmail()).isPresent()) {
             throw new IllegalArgumentException("Email already exists");
@@ -44,25 +62,8 @@ public class UserServiceImpl implements UserService {
         user.setEmail(request.getEmail());
         user.setUsername(request.getEmail()); // Use email as username
         user.setPassword(passwordEncoder.encode(request.getPassword()));
-        
+
         return userRepository.save(user);
-    }
-
-    @Override
-    public AuthResponse login(AuthRequest request) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.getEmail(),
-                        request.getPassword()
-                )
-        );
-
-        User user = userRepository.findByEmail(request.getEmail())
-                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
-
-        String token = jwtUtil.generateToken(user.getEmail());
-
-        return new AuthResponse(token, user.getId(), user.getEmail(), user.getRole());
     }
 
     @Override
