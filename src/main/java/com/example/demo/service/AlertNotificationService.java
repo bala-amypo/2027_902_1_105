@@ -5,10 +5,9 @@ import java.util.List;
 
 public interface AlertNotificationService {
 
-    AlertNotification sendAlert(Long visitLogId);
-
-    AlertNotification getAlert(Long id);
+    AlertNotification createAlert(Long visitLogId, String message);
 
     List<AlertNotification> getAllAlerts();
-}
 
+    List<AlertNotification> getAlertsByVisitLog(Long visitLogId);
+}
