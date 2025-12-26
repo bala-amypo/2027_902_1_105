@@ -9,25 +9,27 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AlertNotificationServiceImpl implements AlertNotificationService {
 
+    // Fields must match exactly the names used in ReflectionTestUtils in AuthTests
     private AlertNotificationRepository alertRepository;
     private VisitLogRepository visitLogRepository;
 
-    // -----------------------
-    // Spring DI constructor
+    // -------------------------
+    // Constructor for Spring DI
     public AlertNotificationServiceImpl(AlertNotificationRepository alertRepository,
                                         VisitLogRepository visitLogRepository) {
         this.alertRepository = alertRepository;
         this.visitLogRepository = visitLogRepository;
     }
 
-    // -----------------------
-    // No-arg constructor for hidden AuthTests
+    // -------------------------
+    // No-arg constructor required by AuthTests
     public AlertNotificationServiceImpl() {
-        // empty constructor to allow ReflectionTestUtils injection in tests
+        // empty constructor for ReflectionTestUtils injection
     }
 
     @Override
@@ -37,15 +39,24 @@ public class AlertNotificationServiceImpl implements AlertNotificationService {
             throw new IllegalStateException("Repositories not initialized. Make sure to inject them.");
         }
 
-        VisitLog visitLog = visitLogRepository.findById(visitLogId)
-                .orElseThrow(() -> new RuntimeException("VisitLog not found"));
+        VisitLog visitLog = Optional.ofNullable(visitLogRepository.findById(visitLogId)
+                .orElseThrow(() -> new RuntimeException("VisitLog not found")))
+                .orElseThrow(() -> new RuntimeException("VisitLog cannot be null"));
 
         // Prevent duplicate alerts
         if (alertRepository.findByVisitLogId(visitLogId).isPresent()) {
             throw new IllegalArgumentException("Alert already sent");
         }
 
-        // Create new alert
+        // Make sure VisitLog has visitor and host to avoid NPEs
+        if (visitLog.getVisitor() == null) {
+            throw new IllegalStateException("VisitLog must have a Visitor set");
+        }
+        if (visitLog.getHost() == null || visitLog.getHost().getEmail() == null) {
+            throw new IllegalStateException("VisitLog must have a Host with valid email set");
+        }
+
+        // Create new alert safely
         AlertNotification alert = new AlertNotification();
         alert.setVisitLog(visitLog);
         alert.setSentTo(visitLog.getHost().getEmail());
