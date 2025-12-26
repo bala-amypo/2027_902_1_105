@@ -3,19 +3,21 @@ package com.example.demo.security;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
-import java.security.Key;
+import javax.crypto.SecretKey;
 import java.util.Date;
 
 @Component
 public class JwtUtil {
 
-    // REQUIRED for test reflection
-    private String secret = "ThisIsASecretKeyThatIsAtLeastThirtyTwoBytesLong!";
-    private Long jwtExpirationMs = 86400000L; // 1 day
+    @Value("${app.jwt.secret}")
+    private String secret;
 
-    private Key getSigningKey() {
+    @Value("${app.jwt.expiration}")
+    private Long jwtExpirationMs;
+
+    private SecretKey getSigningKey() {
         return Keys.hmacShaKeyFor(secret.getBytes());
     }
 
@@ -31,20 +33,18 @@ public class JwtUtil {
                 .compact();
     }
 
-    public Claims validateAndGetClaims(String token) {
+    public Jws<Claims> validateAndGetClaims(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(getSigningKey())
                 .build()
-                .parseClaimsJws(token)
-                .getBody();
+                .parseClaimsJws(token);
     }
 
     public String getTokenFromRequest(HttpServletRequest request) {
-        String header = request.getHeader("Authorization");
-        if (header != null && header.startsWith("Bearer ")) {
-            return header.substring(7);
+        String bearerToken = request.getHeader("Authorization");
+        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+            return bearerToken.substring(7);
         }
         return null;
     }
 }
-
