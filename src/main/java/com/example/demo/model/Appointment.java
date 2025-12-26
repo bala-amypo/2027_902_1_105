@@ -1,8 +1,6 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-
 import java.time.LocalDate;
 
 @Entity
@@ -13,66 +11,27 @@ public class Appointment {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "visitor_id")
-    private Visitor visitor;
-
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "host_id")
-    private Host host;
-
-    @NotNull
     private LocalDate appointmentDate;
 
     private String purpose;
 
     private String status;
 
-    public Appointment() {
-    }
+    @ManyToOne
+    @JoinColumn(name = "visitor_id")
+    private Visitor visitor;
 
-    public Appointment(Long id, Visitor visitor, Host host,
-                       LocalDate appointmentDate, String purpose, String status) {
-        this.id = id;
-        this.visitor = visitor;
-        this.host = host;
-        this.appointmentDate = appointmentDate;
-        this.purpose = purpose;
-        this.status = status;
-    }
+    @ManyToOne
+    @JoinColumn(name = "host_id")
+    private Host host;
 
-    @PrePersist
-    public void prePersist() {
-        if (status == null) {
-            status = "SCHEDULED";
-        }
-        if (appointmentDate != null && appointmentDate.isBefore(LocalDate.now())) {
-            throw new IllegalArgumentException("appointmentDate cannot be past");
-        }
-    }
-
+    // getters & setters
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Visitor getVisitor() {
-        return visitor;
-    }
-
-    public void setVisitor(Visitor visitor) {
-        this.visitor = visitor;
-    }
-
-    public Host getHost() {
-        return host;
-    }
-
-    public void setHost(Host host) {
-        this.host = host;
     }
 
     public LocalDate getAppointmentDate() {
@@ -89,6 +48,22 @@ public class Appointment {
 
     public void setPurpose(String purpose) {
         this.purpose = purpose;
+    }
+
+    public Visitor getVisitor() {
+        return visitor;
+    }
+
+    public void setVisitor(Visitor visitor) {
+        this.visitor = visitor;
+    }
+
+    public Host getHost() {
+        return host;
+    }
+
+    public void setHost(Host host) {
+        this.host = host;
     }
 
     public String getStatus() {

@@ -1,8 +1,6 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-
 import java.time.LocalDateTime;
 
 @Entity
@@ -13,73 +11,31 @@ public class VisitLog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "visitor_id")
-    private Visitor visitor;
-
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "host_id")
-    private Host host;
-
     private LocalDateTime checkInTime;
 
     private LocalDateTime checkOutTime;
 
-    private String purpose;
-
-    @NotNull
-    private Boolean accessGranted;
+    private Boolean accessGranted = true;
 
     private Boolean alertSent = false;
 
-    public VisitLog() {
-    }
+    private String purpose;
 
-    public VisitLog(Long id, Visitor visitor, Host host,
-                    LocalDateTime checkInTime, LocalDateTime checkOutTime,
-                    String purpose, Boolean accessGranted, Boolean alertSent) {
-        this.id = id;
-        this.visitor = visitor;
-        this.host = host;
-        this.checkInTime = checkInTime;
-        this.checkOutTime = checkOutTime;
-        this.purpose = purpose;
-        this.accessGranted = accessGranted;
-        this.alertSent = alertSent;
-    }
+    @ManyToOne
+    @JoinColumn(name = "visitor_id")
+    private Visitor visitor;
 
-    @PrePersist
-    public void prePersist() {
-        if (checkInTime == null) {
-            checkInTime = LocalDateTime.now();
-        }
-        if (alertSent == null) {
-            alertSent = false;
-        }
-    }
+    @ManyToOne
+    @JoinColumn(name = "host_id")
+    private Host host;
 
+    // getters & setters
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Visitor getVisitor() {
-        return visitor;
-    }
-
-    public void setVisitor(Visitor visitor) {
-        this.visitor = visitor;
-    }
-
-    public Host getHost() {
-        return host;
-    }
-
-    public void setHost(Host host) {
-        this.host = host;
     }
 
     public LocalDateTime getCheckInTime() {
@@ -98,14 +54,6 @@ public class VisitLog {
         this.checkOutTime = checkOutTime;
     }
 
-    public String getPurpose() {
-        return purpose;
-    }
-
-    public void setPurpose(String purpose) {
-        this.purpose = purpose;
-    }
-
     public Boolean getAccessGranted() {
         return accessGranted;
     }
@@ -120,5 +68,29 @@ public class VisitLog {
 
     public void setAlertSent(Boolean alertSent) {
         this.alertSent = alertSent;
+    }
+
+    public Visitor getVisitor() {
+        return visitor;
+    }
+
+    public void setVisitor(Visitor visitor) {
+        this.visitor = visitor;
+    }
+
+    public Host getHost() {
+        return host;
+    }
+
+    public void setHost(Host host) {
+        this.host = host;
+    }
+
+    public String getPurpose() {
+        return purpose;
+    }
+
+    public void setPurpose(String purpose) {
+        this.purpose = purpose;
     }
 }

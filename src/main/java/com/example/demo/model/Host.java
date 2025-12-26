@@ -1,60 +1,23 @@
 package com.example.demo.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-
-import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "hosts", uniqueConstraints = {
-        @UniqueConstraint(columnNames = "email")
-})
+@Table(name = "hosts")
 public class Host {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
     private String hostName;
 
-    private String fullname;
-
-    @NotBlank
-    @Email
     @Column(unique = true)
     private String email;
 
-    @NotBlank
-    private String department;
-
-    @NotBlank
     private String phone;
 
-    private LocalDateTime createdAt;
-
-    public Host() {
-    }
-
-    public Host(Long id, String hostName, String fullname, String email,
-                String department, String phone, LocalDateTime createdAt) {
-        this.id = id;
-        this.hostName = hostName;
-        this.fullname = fullname;
-        this.email = email;
-        this.department = department;
-        this.phone = phone;
-        this.createdAt = createdAt;
-    }
-
-    @PrePersist
-    public void prePersist() {
-        if (createdAt == null) {
-            createdAt = LocalDateTime.now();
-        }
-    }
-
+    // getters & setters
     public Long getId() {
         return id;
     }
@@ -71,28 +34,12 @@ public class Host {
         this.hostName = hostName;
     }
 
-    public String getFullname() {
-        return fullname;
-    }
-
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
-    }
-
     public String getEmail() {
         return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(String department) {
-        this.department = department;
     }
 
     public String getPhone() {
@@ -102,12 +49,9 @@ public class Host {
     public void setPhone(String phone) {
         this.phone = phone;
     }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
 }
+
+
+
+
+
