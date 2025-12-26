@@ -1,7 +1,7 @@
 
 package com.example.demo.service;
 
-import com.example.demo.entity.VisitLog;
+import com.example.demo.model.VisitLog;
 import java.util.List;
 
 public interface VisitLogService {
