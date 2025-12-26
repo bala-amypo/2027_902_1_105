@@ -31,18 +31,18 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http
-            // Disable CSRF (JWT based auth)
+          
             .csrf(csrf -> csrf.disable())
 
-            // Stateless session
+          
             .sessionManagement(session ->
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             )
 
-            // Authorization rules
+          
             .authorizeHttpRequests(auth -> auth
 
-                // Public endpoints
+           
                 .requestMatchers(
                     "/auth/**",
                     "/swagger-ui/**",
@@ -50,17 +50,17 @@ public class SecurityConfig {
                     "/swagger-ui.html"
                 ).permitAll()
 
-                // Allow CORS preflight
+                
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
-                // Secure API endpoints
+                
                 .requestMatchers("/api/**").authenticated()
 
-                // Everything else requires auth
+                
                 .anyRequest().authenticated()
             )
 
-            // JWT filter
+         
             .addFilterBefore(
                 jwtAuthenticationFilter,
                 UsernamePasswordAuthenticationFilter.class
