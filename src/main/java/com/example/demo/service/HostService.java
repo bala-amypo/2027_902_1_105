@@ -1,11 +1,13 @@
 package com.example.demo.service;
 
-import com.example.demo.dto.HostDTO;
+import com.example.demo.entity.Host;
 import java.util.List;
 
 public interface HostService {
-    HostDTO createHost(HostDTO hostDTO);
-    HostDTO getHost(Long id);
-    List<HostDTO> getAllHosts();
-    HostDTO getHostByEmail(String email);
+
+    Host createHost(Host host);
+
+    Host getHost(Long id);
+
+    List<Host> getAllHosts();
 }
