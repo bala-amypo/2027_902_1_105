@@ -1,7 +1,7 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.entity.AlertNotification;
-import com.example.demo.entity.VisitLog;
+import com.example.demo.model.AlertNotification;
+import com.example.demo.model.VisitLog;
 import com.example.demo.exception.ResourceNotFoundException;
 import com.example.demo.repository.AlertNotificationRepository;
 import com.example.demo.repository.VisitLogRepository;
