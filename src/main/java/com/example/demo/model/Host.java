@@ -3,7 +3,7 @@ package com.example.demo.model;
 import jakarta.persistence.*;
 import java.util.List;
 
-@model
+@Entity
 @Table(name = "hosts")
 public class Host {
 

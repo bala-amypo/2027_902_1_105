@@ -1,9 +1,9 @@
-package com.example.demo.model.;
+package com.example.demo.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
-@model
+@Entity
 @Table(name = "alert_notifications")
 public class AlertNotification {
 

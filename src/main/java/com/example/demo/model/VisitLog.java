@@ -4,7 +4,7 @@ package com.example.demo.model;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
-@model
+@Entity
 @Table(name = "visit_logs")
 public class VisitLog {
 
