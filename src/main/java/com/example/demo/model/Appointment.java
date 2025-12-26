@@ -24,11 +24,10 @@ public class Appointment {
 
     private String purpose;
 
-    // IMPORTANT: no default "SCHEDULED" here; must start as null
-    @Column(nullable = true)   // or just remove nullable attribute
+   
+    @Column(nullable = true)  
     private String status;
 
-    // --- getters and setters ---
 
     public Long getId() {
         return id;

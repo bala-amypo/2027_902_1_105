@@ -31,7 +31,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             FilterChain filterChain
     ) throws ServletException, IOException {
 
-        // Do not override existing authentication
+       
         if (SecurityContextHolder.getContext().getAuthentication() == null) {
             try {
                 String token = jwtUtil.getTokenFromRequest(request);

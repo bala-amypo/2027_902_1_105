@@ -14,22 +14,20 @@ import java.util.Optional;
 @Service
 public class AlertNotificationServiceImpl implements AlertNotificationService {
 
-    // Fields must match exactly the names used in ReflectionTestUtils in AuthTests
+   
     private AlertNotificationRepository alertRepository;
     private VisitLogRepository visitLogRepository;
 
-    // -------------------------
-    // Constructor for Spring DI
+   
     public AlertNotificationServiceImpl(AlertNotificationRepository alertRepository,
                                         VisitLogRepository visitLogRepository) {
         this.alertRepository = alertRepository;
         this.visitLogRepository = visitLogRepository;
     }
 
-    // -------------------------
-    // No-arg constructor required by AuthTests
+   
     public AlertNotificationServiceImpl() {
-        // empty constructor for ReflectionTestUtils injection
+       
     }
 
     @Override
@@ -48,7 +46,7 @@ public class AlertNotificationServiceImpl implements AlertNotificationService {
             throw new IllegalArgumentException("Alert already sent");
         }
 
-        // Make sure VisitLog has visitor and host to avoid NPEs
+     
         if (visitLog.getVisitor() == null) {
             throw new IllegalStateException("VisitLog must have a Visitor set");
         }
