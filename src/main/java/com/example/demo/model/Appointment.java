@@ -6,6 +6,7 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "appointments")
 public class Appointment {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,24 +24,51 @@ public class Appointment {
 
     private String purpose;
 
-    @Column(nullable = false)
-    private String status = "SCHEDULED";
+    // IMPORTANT: no default "SCHEDULED" here; must start as null
+    @Column(nullable = true)   // or just remove nullable attribute
+    private String status;
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    // --- getters and setters ---
 
-    public Visitor getVisitor() { return visitor; }
-    public void setVisitor(Visitor visitor) { this.visitor = visitor; }
+    public Long getId() {
+        return id;
+    }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public Host getHost() { return host; }
-    public void setHost(Host host) { this.host = host; }
+    public Visitor getVisitor() {
+        return visitor;
+    }
+    public void setVisitor(Visitor visitor) {
+        this.visitor = visitor;
+    }
 
-    public LocalDate getAppointmentDate() { return appointmentDate; }
-    public void setAppointmentDate(LocalDate appointmentDate) { this.appointmentDate = appointmentDate; }
+    public Host getHost() {
+        return host;
+    }
+    public void setHost(Host host) {
+        this.host = host;
+    }
 
-    public String getPurpose() { return purpose; }
-    public void setPurpose(String purpose) { this.purpose = purpose; }
+    public LocalDate getAppointmentDate() {
+        return appointmentDate;
+    }
+    public void setAppointmentDate(LocalDate appointmentDate) {
+        this.appointmentDate = appointmentDate;
+    }
 
-    public String getStatus() { return status; }
-    public void setStatus(String status) { this.status = status; }
+    public String getPurpose() {
+        return purpose;
+    }
+    public void setPurpose(String purpose) {
+        this.purpose = purpose;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }
