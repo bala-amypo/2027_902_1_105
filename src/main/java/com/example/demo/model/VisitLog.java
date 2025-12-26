@@ -1,4 +1,5 @@
-package com.example.demo.model;
+
+package com.example.demo.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
@@ -11,86 +12,36 @@ public class VisitLog {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDateTime checkInTime;
-
-    private LocalDateTime checkOutTime;
-
-    private Boolean accessGranted = true;
-
-    private Boolean alertSent = false;
-
-    private String purpose;
-
     @ManyToOne
-    @JoinColumn(name = "visitor_id")
+    @JoinColumn(name = "visitor_id", nullable = false)
     private Visitor visitor;
 
     @ManyToOne
-    @JoinColumn(name = "host_id")
+    @JoinColumn(name = "host_id", nullable = false)
     private Host host;
 
-    // getters & setters
-    public Long getId() {
-        return id;
-    }
+    private LocalDateTime entryTime;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    private LocalDateTime exitTime;
 
-    public LocalDateTime getCheckInTime() {
-        return checkInTime;
-    }
-
-    public void setCheckInTime(LocalDateTime checkInTime) {
-        this.checkInTime = checkInTime;
-    }
-
-    public LocalDateTime getCheckOutTime() {
-        return checkOutTime;
-    }
-
-    public void setCheckOutTime(LocalDateTime checkOutTime) {
-        this.checkOutTime = checkOutTime;
-    }
-
-    public Boolean getAccessGranted() {
-        return accessGranted;
-    }
-
-    public void setAccessGranted(Boolean accessGranted) {
-        this.accessGranted = accessGranted;
-    }
-
-    public Boolean getAlertSent() {
-        return alertSent;
-    }
-
-    public void setAlertSent(Boolean alertSent) {
-        this.alertSent = alertSent;
-    }
-
-    public Visitor getVisitor() {
-        return visitor;
-    }
-
-    public void setVisitor(Visitor visitor) {
+    // Constructors
+    public VisitLog() {}
+    public VisitLog(Visitor visitor, Host host, LocalDateTime entryTime, LocalDateTime exitTime) {
         this.visitor = visitor;
-    }
-
-    public Host getHost() {
-        return host;
-    }
-
-    public void setHost(Host host) {
         this.host = host;
+        this.entryTime = entryTime;
+        this.exitTime = exitTime;
     }
 
-    public String getPurpose() {
-        return purpose;
-    }
-
-    public void setPurpose(String purpose) {
-        this.purpose = purpose;
-    }
+    // Getters & Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
+    public Visitor getVisitor() { return visitor; }
+    public void setVisitor(Visitor visitor) { this.visitor = visitor; }
+    public Host getHost() { return host; }
+    public void setHost(Host host) { this.host = host; }
+    public LocalDateTime getEntryTime() { return entryTime; }
+    public void setEntryTime(LocalDateTime entryTime) { this.entryTime = entryTime; }
+    public LocalDateTime getExitTime() { return exitTime; }
+    public void setExitTime(LocalDateTime exitTime) { this.exitTime = exitTime; }
 }
