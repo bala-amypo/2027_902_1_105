@@ -1,7 +1,7 @@
 
 package com.example.demo.repository;
 
-import com.example.demo.entity.VisitLog;
+import com.example.demo.model.VisitLog;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
