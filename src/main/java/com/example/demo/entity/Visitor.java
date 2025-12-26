@@ -1,48 +1,54 @@
 package com.example.demo.entity;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "alert_notifications")
-public class AlertNotification {
+@Table(name = "visitors")
+public class Visitor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "visit_log_id", nullable = false, unique = true)
-    private VisitLog visitLog;
+    @NotBlank
+    @Column(nullable = false)
+    private String fullName;
+
+    @Email
+    private String email;
 
     @NotBlank
     @Column(nullable = false)
-    private String sentTo;
+    private String phone;
 
     @NotBlank
     @Column(nullable = false)
-    private String alertMessage;
+    private String idProofNumber;
 
-    @Column(nullable = false)
-    private LocalDateTime sentAt;
+    @Column(nullable = false, updatable = false)
+    private LocalDateTime createdAt;
 
     @PrePersist
     protected void onCreate() {
-        sentAt = LocalDateTime.now();
+        createdAt = LocalDateTime.now();
     }
 
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
-    public VisitLog getVisitLog() { return visitLog; }
-    public void setVisitLog(VisitLog visitLog) { this.visitLog = visitLog; }
+    public String getFullName() { return fullName; }
+    public void setFullName(String fullName) { this.fullName = fullName; }
 
-    public String getSentTo() { return sentTo; }
-    public void setSentTo(String sentTo) { this.sentTo = sentTo; }
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
 
-    public String getAlertMessage() { return alertMessage; }
-    public void setAlertMessage(String alertMessage) { this.alertMessage = alertMessage; }
+    public String getPhone() { return phone; }
+    public void setPhone(String phone) { this.phone = phone; }
 
-    public LocalDateTime getSentAt() { return sentAt; }
-    public void setSentAt(LocalDateTime sentAt) { this.sentAt = sentAt; }
+    public String getIdProofNumber() { return idProofNumber; }
+    public void setIdProofNumber(String idProofNumber) { this.idProofNumber = idProofNumber; }
+
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 }
