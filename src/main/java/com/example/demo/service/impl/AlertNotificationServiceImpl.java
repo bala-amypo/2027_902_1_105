@@ -1,71 +1,53 @@
 package com.example.demo.service.impl;
 
-import com.example.demo.dto.AlertNotificationDTO;
-import com.example.demo.model.AlertNotification;
-import com.example.demo.model.Host;
-import com.example.demo.model.VisitLog;
-import com.example.demo.exception.ResourceNotFoundException;
+import com.example.demo.entity.AlertNotification;
+import com.example.demo.entity.VisitLog;
 import com.example.demo.repository.AlertNotificationRepository;
 import com.example.demo.repository.VisitLogRepository;
 import com.example.demo.service.AlertNotificationService;
-import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
-@Service
 public class AlertNotificationServiceImpl implements AlertNotificationService {
 
-    private final AlertNotificationRepository alertRepository;
-    private final VisitLogRepository visitLogRepository;
+    private AlertNotificationRepository alertRepository;
+    private VisitLogRepository visitLogRepository;
 
-    public AlertNotificationServiceImpl(AlertNotificationRepository alertRepository,
-                                        VisitLogRepository visitLogRepository) {
-        this.alertRepository = alertRepository;
-        this.visitLogRepository = visitLogRepository;
-    }
+    public AlertNotificationServiceImpl() {}
 
     @Override
-    public AlertNotificationDTO sendAlert(Long visitLogId) {
-        VisitLog visitLog = visitLogRepository.findById(visitLogId)
-                .orElseThrow(() -> new ResourceNotFoundException("Visit log not found"));
+    public AlertNotification sendAlert(Long visitLogId) {
+
+        VisitLog log = visitLogRepository.findById(visitLogId)
+                .orElseThrow(() -> new RuntimeException("VisitLog not found"));
 
         if (alertRepository.findByVisitLogId(visitLogId).isPresent()) {
             throw new IllegalArgumentException("Alert already sent");
         }
 
-        Host host = visitLog.getHost();
         AlertNotification alert = new AlertNotification();
-        alert.setVisitLog(visitLog);
-        alert.setSentTo(host.getEmail());
-        alert.setAlertMessage("Visitor " + visitLog.getVisitor().getFullName() + 
-                             " has checked in for visit purpose: " + visitLog.getPurpose());
+        alert.setVisitLog(log);
+        alert.setSentAt(LocalDateTime.now());
+        alert.setSentTo(log.getHost().getEmail());
+        alert.setAlertMessage("Visitor checked in");
 
         AlertNotification saved = alertRepository.save(alert);
-        return modelToDto(saved);
+
+        log.setAlertSent(true);
+        visitLogRepository.save(log);
+
+        return saved;
     }
 
     @Override
-    public AlertNotificationDTO getAlert(Long id) {
-        AlertNotification alert = alertRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Alert not found"));
-        return modelToDto(alert);
+    public AlertNotification getAlert(Long id) {
+        return alertRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Alert not found"));
     }
 
     @Override
-    public List<AlertNotificationDTO> getAllAlerts() {
-        return alertRepository.findAll().stream()
-                .map(this::modelToDto)
-                .collect(Collectors.toList());
-    }
-
-    private AlertNotificationDTO modelToDto(AlertNotification alert) {
-        return new AlertNotificationDTO(
-                alert.getId(),
-                alert.getVisitLog().getId(),
-                alert.getSentTo(),
-                alert.getAlertMessage(),
-                alert.getSentAt()
-        );
+    public List<AlertNotification> getAllAlerts() {
+        return alertRepository.findAll();
     }
 }
