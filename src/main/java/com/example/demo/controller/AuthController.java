@@ -29,6 +29,7 @@ public class AuthController {
                 "user@example.com"
         );
 
+        // Use the new single-argument constructor in AuthResponse
         return ResponseEntity.ok(new AuthResponse(token));
     }
 

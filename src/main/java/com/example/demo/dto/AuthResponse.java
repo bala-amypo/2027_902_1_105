@@ -7,8 +7,15 @@ public class AuthResponse {
     private Long userId;
     private String email;
 
+    // No-argument constructor
     public AuthResponse() {}
 
+    // Single-argument constructor (token only)
+    public AuthResponse(String token) {
+        this.token = token;
+    }
+
+    // Full constructor
     public AuthResponse(String token, String role, Long userId, String email) {
         this.token = token;
         this.role = role;
@@ -16,6 +23,7 @@ public class AuthResponse {
         this.email = email;
     }
 
+    // Getters and setters
     public String getToken() {
         return token;
     }
@@ -43,7 +51,7 @@ public class AuthResponse {
     public String getEmail() {
         return email;
     }
- 
+
     public void setEmail(String email) {
         this.email = email;
     }
