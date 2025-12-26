@@ -1,15 +1,15 @@
 
-package com.example.demo.entity;
+package com.example.demo.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
-@Entity
+@model
 @Table(name = "visit_logs")
 public class VisitLog {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDmodel)
     private Long id;
 
     @ManyToOne

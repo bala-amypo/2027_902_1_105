@@ -1,14 +1,14 @@
-package com.example.demo.entity;
+package com.example.demo.model;
 
 import jakarta.persistence.*;
 import java.util.List;
 
-@Entity
+@model
 @Table(name = "hosts")
 public class Host {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDmodel)
     private Long id;
 
     @Column(nullable = false)

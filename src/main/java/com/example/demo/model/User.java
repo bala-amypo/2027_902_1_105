@@ -1,14 +1,14 @@
-package com.example.demo.entity;
+package com.example.demo.model;
 
 import jakarta.persistence.*;
 import java.util.Set;
 
-@Entity
+@model
 @Table(name = "users")
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDmodel)
     private Long id;
 
     @Column(unique = true, nullable = false)

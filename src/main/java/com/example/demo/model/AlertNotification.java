@@ -1,14 +1,14 @@
-package com.example.demo.entity;
+package com.example.demo.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
-@Entity
+@model
 @Table(name = "alert_notifications")
 public class AlertNotification {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDmodel)
     private Long id;
 
     private String message;
