@@ -1,47 +1,47 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.AppointmentDTO;
+import com.example.demo.model.Appointment;
 import com.example.demo.service.AppointmentService;
-import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/appointments")
+@RequestMapping("/api/appointments")
 public class AppointmentController {
 
-    private final AppointmentService appointmentService;
+    @Autowired
+    private AppointmentService appointmentService;
 
-    public AppointmentController(AppointmentService appointmentService) {
-        this.appointmentService = appointmentService;
-    }
-
-    // CREATE appointment
     @PostMapping
-    public AppointmentDTO createAppointment(
+    public ResponseEntity<Appointment> createAppointment(
             @RequestParam Long visitorId,
             @RequestParam Long hostId,
-            @Valid @RequestBody AppointmentDTO dto) {
+            @RequestBody Appointment appointment) {
 
-        return appointmentService.createAppointment(visitorId, hostId, dto);
+        return ResponseEntity.ok(
+                appointmentService.createAppointment(visitorId, hostId, appointment)
+        );
     }
 
-    // GET appointment by id
     @GetMapping("/{id}")
-    public AppointmentDTO getAppointment(@PathVariable Long id) {
-        return appointmentService.getAppointment(id);
+    public ResponseEntity<Appointment> getAppointment(@PathVariable Long id) {
+        return ResponseEntity.ok(appointmentService.getAppointment(id));
     }
 
-    // GET appointments for host
     @GetMapping("/host/{hostId}")
-    public List<AppointmentDTO> getAppointmentsForHost(@PathVariable Long hostId) {
-        return appointmentService.getAppointmentsForHost(hostId);
+    public ResponseEntity<List<Appointment>> getByHost(@PathVariable Long hostId) {
+        return ResponseEntity.ok(
+                appointmentService.getAppointmentsForHost(hostId)
+        );
     }
 
-    // GET appointments for visitor
     @GetMapping("/visitor/{visitorId}")
-    public List<AppointmentDTO> getAppointmentsForVisitor(@PathVariable Long visitorId) {
-        return appointmentService.getAppointmentsForVisitor(visitorId);
+    public ResponseEntity<List<Appointment>> getByVisitor(@PathVariable Long visitorId) {
+        return ResponseEntity.ok(
+                appointmentService.getAppointmentsForVisitor(visitorId)
+        );
     }
 }

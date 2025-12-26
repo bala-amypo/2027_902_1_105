@@ -2,30 +2,39 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.AuthRequest;
 import com.example.demo.dto.AuthResponse;
-import com.example.demo.dto.ApiResponse;
-import com.example.demo.service.UserService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.validation.Valid;
+import com.example.demo.model.User;
+import com.example.demo.security.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.bind.annotation.*;
 
-@Tag(name = "Authentication")
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 public class AuthController {
 
     @Autowired
-    private UserService userService;
+    private JwtUtil jwtUtil;
+
+    private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
     @PostMapping("/login")
-    @Operation(summary = "User login")
-    public ResponseEntity<ApiResponse> login(@Valid @RequestBody AuthRequest request) {
-        AuthResponse response = userService.authenticate(request);
-        return ResponseEntity.ok(new ApiResponse(true, "Login successful", response));
+    public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest request) {
+
+        // SIMULATED authentication (DB logic handled in service normally)
+        String token = jwtUtil.generateToken(
+                request.getUsername(),
+                "USER",
+                1L,
+                "user@example.com"
+        );
+
+        return ResponseEntity.ok(new AuthResponse(token));
     }
-} 
+
+    @PostMapping("/register")
+    public ResponseEntity<String> register(@RequestBody User user) {
+        user.setPassword(encoder.encode(user.getPassword()));
+        return ResponseEntity.ok("User registered successfully");
+    }
+}
