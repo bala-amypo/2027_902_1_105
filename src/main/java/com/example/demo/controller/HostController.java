@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.ApiResponse;
-import com.example.demo.entity.Host;
+import com.example.demo.model.Host;
 import com.example.demo.service.HostService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
