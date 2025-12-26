@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 public class VisitLog {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDmodel)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne

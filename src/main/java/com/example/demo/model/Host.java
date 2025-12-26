@@ -8,7 +8,7 @@ import java.util.List;
 public class Host {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDmodel)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)

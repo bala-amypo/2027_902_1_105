@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 public class AlertNotification {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDmodel)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String message;
