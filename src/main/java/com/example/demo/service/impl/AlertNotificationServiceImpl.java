@@ -5,49 +5,32 @@ import com.example.demo.model.VisitLog;
 import com.example.demo.repository.AlertNotificationRepository;
 import com.example.demo.repository.VisitLogRepository;
 import com.example.demo.service.AlertNotificationService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
+@Service
 public class AlertNotificationServiceImpl implements AlertNotificationService {
 
-    private AlertNotificationRepository alertRepository;
-    private VisitLogRepository visitLogRepository;
+    @Autowired
+    private AlertNotificationRepository alertRepo;
 
-    public AlertNotificationServiceImpl() {}
+    @Autowired
+    private VisitLogRepository visitLogRepo;
 
     @Override
-    public AlertNotification sendAlert(Long visitLogId) {
-
-        VisitLog log = visitLogRepository.findById(visitLogId)
-                .orElseThrow(() -> new RuntimeException("VisitLog not found"));
-
-        if (alertRepository.findByVisitLogId(visitLogId).isPresent()) {
-            throw new IllegalArgumentException("Alert already sent");
-        }
-
+    public AlertNotification createAlert(VisitLog log, String message) {
         AlertNotification alert = new AlertNotification();
         alert.setVisitLog(log);
+        alert.setAlertMessage(message);
         alert.setSentAt(LocalDateTime.now());
-        alert.setSentTo(log.getHost().getEmail());
-        alert.setAlertMessage("Visitor checked in");
+        alert.setSentTo(log.getVisitor().getEmail());
 
-        AlertNotification saved = alertRepository.save(alert);
-
+        // Mark VisitLog as alert sent
         log.setAlertSent(true);
-        visitLogRepository.save(log);
+        visitLogRepo.save(log);
 
-        return saved;
-    }
-
-    @Override
-    public AlertNotification getAlert(Long id) {
-        return alertRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Alert not found"));
-    }
-
-    @Override
-    public List<AlertNotification> getAllAlerts() {
-        return alertRepository.findAll();
+        return alertRepo.save(alert);
     }
 }
