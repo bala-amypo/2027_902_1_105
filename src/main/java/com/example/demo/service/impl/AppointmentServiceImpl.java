@@ -9,6 +9,7 @@ import com.example.demo.repository.HostRepository;
 import com.example.demo.repository.VisitorRepository;
 import com.example.demo.service.AppointmentService;
 import org.springframework.stereotype.Service;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -19,9 +20,9 @@ public class AppointmentServiceImpl implements AppointmentService {
     private final VisitorRepository visitorRepository;
     private final HostRepository hostRepository;
 
-    public AppointmentServiceImpl(AppointmentRepository appointmentRepository, 
-                                VisitorRepository visitorRepository, 
-                                HostRepository hostRepository) {
+    public AppointmentServiceImpl(AppointmentRepository appointmentRepository,
+                                  VisitorRepository visitorRepository,
+                                  HostRepository hostRepository) {
         this.appointmentRepository = appointmentRepository;
         this.visitorRepository = visitorRepository;
         this.hostRepository = hostRepository;
@@ -40,7 +41,11 @@ public class AppointmentServiceImpl implements AppointmentService {
 
         appointment.setVisitor(visitor);
         appointment.setHost(host);
-        appointment.setStatus("SCHEDULED");
+
+        // Default status only if null (needed for test038)
+        if (appointment.getStatus() == null) {
+            appointment.setStatus("SCHEDULED");
+        }
 
         return appointmentRepository.save(appointment);
     }
