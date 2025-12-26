@@ -7,8 +7,10 @@ import com.example.demo.repository.AlertNotificationRepository;
 import com.example.demo.repository.VisitLogRepository;
 import com.example.demo.service.AlertNotificationService;
 import org.springframework.stereotype.Service;
+
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AlertNotificationServiceImpl implements AlertNotificationService {
@@ -16,19 +18,28 @@ public class AlertNotificationServiceImpl implements AlertNotificationService {
     private final AlertNotificationRepository alertRepository;
     private final VisitLogRepository visitLogRepository;
 
-    public AlertNotificationServiceImpl(AlertNotificationRepository alertRepository, 
-                                      VisitLogRepository visitLogRepository) {
+    // Constructor injection for Spring + unit tests
+    public AlertNotificationServiceImpl(AlertNotificationRepository alertRepository,
+                                        VisitLogRepository visitLogRepository) {
         this.alertRepository = alertRepository;
         this.visitLogRepository = visitLogRepository;
     }
 
     @Override
     public AlertNotification sendAlert(Long visitLogId) {
+        // Fetch VisitLog or throw exception
         VisitLog visitLog = visitLogRepository.findById(visitLogId)
                 .orElseThrow(() -> new ResourceNotFoundException("VisitLog not found"));
 
-        if (alertRepository.findByVisitLogId(visitLogId).isPresent()) {
+        // Prevent duplicate alerts
+        Optional<AlertNotification> existingAlert = alertRepository.findByVisitLogId(visitLogId);
+        if (existingAlert.isPresent()) {
             throw new IllegalArgumentException("Alert already sent");
+        }
+
+        // Safe null-check for visitor and host
+        if (visitLog.getVisitor() == null || visitLog.getHost() == null || visitLog.getHost().getEmail() == null) {
+            throw new IllegalStateException("Visitor or Host information is missing");
         }
 
         AlertNotification alert = new AlertNotification();
@@ -39,6 +50,7 @@ public class AlertNotificationServiceImpl implements AlertNotificationService {
 
         AlertNotification savedAlert = alertRepository.save(alert);
 
+        // Mark alert sent in VisitLog
         visitLog.setAlertSent(true);
         visitLogRepository.save(visitLog);
 
