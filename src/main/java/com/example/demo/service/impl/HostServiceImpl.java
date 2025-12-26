@@ -13,12 +13,10 @@ public class HostServiceImpl implements HostService {
 
     private HostRepository hostRepository;
 
-    // Existing constructor (for production code)
     public HostServiceImpl(HostRepository hostRepository) {
         this.hostRepository = hostRepository;
     }
 
-    // No-arg constructor (for AuthTests.java)
     public HostServiceImpl() {
         this.hostRepository = null;
     }

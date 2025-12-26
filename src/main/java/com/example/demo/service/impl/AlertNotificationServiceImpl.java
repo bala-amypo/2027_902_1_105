@@ -54,7 +54,7 @@ public class AlertNotificationServiceImpl implements AlertNotificationService {
             throw new IllegalStateException("VisitLog must have a Host with valid email set");
         }
 
-        // Create new alert safely
+        
         AlertNotification alert = new AlertNotification();
         alert.setVisitLog(visitLog);
         alert.setSentTo(visitLog.getHost().getEmail());
@@ -63,7 +63,7 @@ public class AlertNotificationServiceImpl implements AlertNotificationService {
 
         AlertNotification savedAlert = alertRepository.save(alert);
 
-        // Update visit log to indicate alert sent
+       
         visitLog.setAlertSent(true);
         visitLogRepository.save(visitLog);
 

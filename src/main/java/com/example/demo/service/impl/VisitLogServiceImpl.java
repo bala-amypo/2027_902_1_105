@@ -20,7 +20,7 @@ public class VisitLogServiceImpl implements VisitLogService {
     private VisitorRepository visitorRepository;
     private HostRepository hostRepository;
 
-    // Existing constructor (for production)
+   
     public VisitLogServiceImpl(VisitLogRepository visitLogRepository,
                                VisitorRepository visitorRepository,
                                HostRepository hostRepository) {
@@ -29,7 +29,7 @@ public class VisitLogServiceImpl implements VisitLogService {
         this.hostRepository = hostRepository;
     }
 
-    // No-arg constructor (for AuthTests.java)
+    
     public VisitLogServiceImpl() {
         this.visitLogRepository = null;
         this.visitorRepository = null;

@@ -42,7 +42,7 @@ public class AppointmentServiceImpl implements AppointmentService {
         appointment.setVisitor(visitor);
         appointment.setHost(host);
 
-        // Default status only if null (needed for test038)
+        
         if (appointment.getStatus() == null) {
             appointment.setStatus("SCHEDULED");
         }
